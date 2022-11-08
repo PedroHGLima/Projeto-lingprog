@@ -51,6 +51,7 @@ void menu(int comando=9) {
         default:
             cout << "Comando desconhecido" << endl;
             break;
+            cout << "Pau no cu" << endl;
     }
 }
 
