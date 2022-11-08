@@ -3,5 +3,5 @@
 Repositório dedicado ao desenvolvimento do projeto da disciplina de Linguagens de Programação.
 
 Autores:
-- @PedroHGLima
-- @Bernardo-LSF
+- [Pedro Lima](https://github.com/PedroHGLima)
+- [Bernardo Faria](https://github.com/Bernardo-LSF)
