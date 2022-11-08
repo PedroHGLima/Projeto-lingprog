@@ -1,0 +1,10 @@
+*
+!/**/
+!*.*
+*.o
+*.exe
+*.rar
+*.zip
+*.out
+!makefile
+.vscode
