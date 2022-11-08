@@ -6,5 +6,7 @@
 *.rar
 *.zip
 *.out
+*.xlsx
+*.pptx
 !makefile
 .vscode
