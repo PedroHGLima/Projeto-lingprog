@@ -72,7 +72,9 @@ void rank_list(int num){
                 std::cout << "Opcao invalida" << std::endl;
                 break;
         }
-        std::cout << "Digite a variavel a ser mostrada: "; std::cin >> variavel;
+        if (continuar) {
+            std::cout << "Digite a variavel a ser mostrada: "; std::cin >> variavel;
+        }
     }
 
     if (PyCallable_Check(pFunc)){
