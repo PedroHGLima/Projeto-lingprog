@@ -10,3 +10,4 @@
 *.pptx
 !makefile
 .vscode
+__pycache__
