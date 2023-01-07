@@ -12,26 +12,16 @@
 #include <string>
 
 void rank_list(int num){
-   // Set PYTHONPATH TO working directory
    setenv("PYTHONPATH",".",1);
 
     bool continuar = true;
     int variavel=9;
     PyObject *pName, *pModule, *pDict, *pFunc, *pValue, *presult;
 
-    // Initialize the Python Interpreter
     Py_Initialize();
-
-    // Build the name object
     pName = PyUnicode_FromString((char*)"get_tops");
-
-    // Load the module object
     pModule = PyImport_Import(pName);
-
-    // pDict is a borrowed reference 
     pDict = PyModule_GetDict(pModule);
-
-    // pFunc is also a borrowed reference
 
     while (continuar) {    
         switch (variavel){
@@ -90,12 +80,8 @@ void rank_list(int num){
     }
 
     Py_DECREF(pValue);
-
-    // Clean up
     Py_DECREF(pModule);
     Py_DECREF(pName);
-
-    // Finish the Python Interpreter
     Py_FinalizeEx();
 }
 
@@ -135,6 +121,7 @@ void menu(int comando=9) {
                 break;
             default:
                 std::cout << "Comando desconhecido" << std::endl;
+                return;
                 break;
         }
         std::cout << "Insira o comando: "; std::cin >> comando;

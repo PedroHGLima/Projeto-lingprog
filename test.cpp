@@ -1,16 +1,16 @@
-#define PY_SSIZE_T_CLEAN
-#include <python3.10/Python.h>
+//#define PY_SSIZE_T_CLEAN
+//#include <python3.10/Python.h>
+#include "pais.h"
+#include <iostream>
+#include <string>
 
-int main()
-{
-	Py_Initialize();
-    // Import modules
-    PyRun_SimpleString("import pandas as pd");
-	PyRun_SimpleString("import numpy as np");
-
-    PyRun_SimpleString("df = pd.read_csv('Covid Live.csv')");
-
-	Py_Finalize();
-	
+int main(){
+	Pais p("USA");
+	Pais p1(p);
+	Pais p2;
+	//p2.carregar_dados();
+	std::cout << p << std::endl;
 	return 0;
 }
+
+//g++ $(python3-config --cflags) test.cpp -o tst $(python3-config --ldflags --embed)
