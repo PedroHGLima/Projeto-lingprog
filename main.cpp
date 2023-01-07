@@ -108,25 +108,23 @@ void menu(int comando=9) {
     while (true) {
         switch (comando){
             case 1:{
-                // TODO: imprimir uma variavel a ser definida
-                std::cout << "Digite o numero de paises a serem mostrados: "; std::cin >> num;
-                rank_list(num);
+                // TODO: imprimir coluna
                 break;
                 }
             case 2:
-                // TODO: implementar função que mostra os paises com maior numero de obitos
-                std::cout << "Comando 2" << std::endl;
+                std::cout << "Digite o numero de paises a serem mostrados: "; std::cin >> num;
+                rank_list(num);
                 break;
             case 3:
-                // TODO: implementar função que mostra os paises com maior numero de recuperados
+                // TODO: calculo de estatisticas
                 std::cout << "Comando 3" << std::endl;
                 break;
             case 4:
-                // TODO: implementar função que mostra os paises com maior numero de casos ativos
+                // TODO: estabelecer trheshold
                 std::cout << "Comando 4" << std::endl;
                 break;
             case 5:
-                // TODO: implementar função que mostra os paises mais populosos
+                // TODO: gerar boletim
                 std::cout << "Comando 5" << std::endl;
                 break;
             case 9:
