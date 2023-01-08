@@ -1,16 +1,13 @@
-#define PY_SSIZE_T_CLEAN
-#include <python3.10/Python.h>
+#include "mundo.h"
 
-int main()
-{
-	Py_Initialize();
-    // Import modules
-    PyRun_SimpleString("import pandas as pd");
-	PyRun_SimpleString("import numpy as np");
+int main () {
+	Mundo m;
+	Arvore<Pais> paises = m.get_paises();
 
-    PyRun_SimpleString("df = pd.read_csv('Covid Live.csv')");
+	paises.imprimir();
 
-	Py_Finalize();
-	
 	return 0;
 }
+
+//g++ $(python3-config --cflags) test.cpp -o tst $(python3-config --ldflags --embed)
+// Comando para compilar, lembre-se de adicionar os cpp adicionais, caso necessario
