@@ -1,6 +1,8 @@
 #include "pais.h"
 
 Pais::Pais(std::string nome) {
+    /// @brief Construtor padrao, inicializa todos os atributos com 0
+    /// @param nome Nome do pais
     this->nome = nome;
     this->populacao = 0;
     this->casos_totais = 0;
@@ -10,6 +12,7 @@ Pais::Pais(std::string nome) {
 }
 
 Pais::Pais(std::string nome, int populacao, int casos_totais, int total_obitos, int total_recuperados, int casos_ativos) {
+    /// @brief Construtor completo, inicializa todos os atributos com os valores passados
     this->nome = nome;
     this->populacao = populacao;
     this->casos_totais = casos_totais;
@@ -82,6 +85,10 @@ bool Pais::operator==(Pais &p) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Pais& pais) {
+    /// @brief A impressao do pais trata-se apenas do nome
+    /// @param os 
+    /// @param pais 
+    /// @return 
     os << pais.nome;
     return os;
 }

@@ -25,7 +25,7 @@ class Pais {
         bool operator>(Pais &p);
         bool operator==(Pais &p);
     private:
-        //['Country, Other', 'Total Cases', 'Total Deaths', 'Total Recovered', 'Active Cases', 'Population']
+        //['Country, Other', 'Total Cases', 'Total Deaths', 'Total Recovered', 'Active Cases', 'Population'] cols do python
         std::string nome;
         int casos_totais;
         int total_obitos;

@@ -11,43 +11,33 @@
 #include <iostream>
 #include <string>
 
-void rank_list(int num){
-   setenv("PYTHONPATH",".",1);
+#include "mundo.h"
 
+void rank_list(Mundo &mundo, int num){
+    // TODO: ainda ta tudo errado aqui
     bool continuar = true;
     int variavel=9;
-    PyObject *pName, *pModule, *pDict, *pFunc, *pValue, *presult;
-
-    Py_Initialize();
-    pName = PyUnicode_FromString((char*)"get_tops");
-    pModule = PyImport_Import(pName);
-    pDict = PyModule_GetDict(pModule);
 
     while (continuar) {    
         switch (variavel){
             case 1:
                 // Mostra os casos totais
-                pFunc = PyDict_GetItemString(pDict, (char*)"top_total");
                 continuar = false;
                 break;
             case 2:
                 // Mostra o total de obitos
-                pFunc = PyDict_GetItemString(pDict, (char*)"top_deaths");
                 continuar = false;
                 break;
             case 3:
                 // Mostra o total de recuperados
-                pFunc = PyDict_GetItemString(pDict, (char*)"top_recovered");
                 continuar = false;
                 break;
             case 4:
                 // Mostra o total de casos ativos
-                pFunc = PyDict_GetItemString(pDict, (char*)"top_active");
                 continuar = false;
                 break;
             case 5:
                 // Mostra a populacao
-                pFunc = PyDict_GetItemString(pDict, (char*)"top_population");
                 continuar = false;
                 break;
             case 9:
@@ -67,25 +57,10 @@ void rank_list(int num){
         }
     }
 
-    if (PyCallable_Check(pFunc)){
-        pValue=Py_BuildValue("(i)", (int)num);
-        PyErr_Print();
-        presult=PyObject_CallObject(pFunc,pValue);
-        PyErr_Print();
-        for (int i = 0; i < num; i++){
-            std::cout << _PyUnicode_AsString(PyList_GetItem(presult, i)) << std::endl;
-        }
-    } else {
-        PyErr_Print();
-    }
-
-    Py_DECREF(pValue);
-    Py_DECREF(pModule);
-    Py_DECREF(pName);
-    Py_FinalizeEx();
+    //for (int i = 0; i < m.get_n_paises; i++){}
 }
 
-void menu(int comando=9) {
+void menu(Mundo& mundo, int comando=9) {
     /**
      * @brief Função que exibe o menu do programa
      * @param comando comando a ser executado pelo menu
@@ -99,7 +74,7 @@ void menu(int comando=9) {
                 }
             case 2:
                 std::cout << "Digite o numero de paises a serem mostrados: "; std::cin >> num;
-                rank_list(num);
+                rank_list(mundo, num);
                 break;
             case 3:
                 // TODO: calculo de estatisticas
@@ -130,8 +105,9 @@ void menu(int comando=9) {
 
 int main() {
     int comando = 9;
+    Mundo mundo;
 
-    menu(comando);
+    menu(mundo, comando);
 
     return 0;
 }
