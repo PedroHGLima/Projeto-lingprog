@@ -2,7 +2,9 @@
 
 int main () {
 	Mundo m;
-	m.set_paises();
+	Arvore<Pais> paises = m.get_paises();
+
+	paises.imprimir();
 
 	return 0;
 }

@@ -7,6 +7,7 @@
 
 class Mundo {
     public:
+        Mundo();
         Arvore<Pais> get_paises();
         void set_paises();
     private:
