@@ -1,15 +1,9 @@
-//#define PY_SSIZE_T_CLEAN
-//#include <python3.10/Python.h>
-#include "pais.h"
-#include <iostream>
-#include <string>
+#include "mundo.h"
 
-int main(){
-	Pais p("USA");
-	Pais p1(p);
-	Pais p2;
-	//p2.carregar_dados();
-	std::cout << p << std::endl;
+int main () {
+	Mundo m;
+	m.set_paises();
+
 	return 0;
 }
 
