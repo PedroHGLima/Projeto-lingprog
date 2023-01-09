@@ -25,6 +25,7 @@ void Mundo::set_paises() {
         int qtd;                                                        // Quantidade de paises a serem lidos
         while (true) {
         // Laco para prevenir erros de leitura
+            std::cout << "<0: Nenhum | 0: Todos | >0: Quantidade>" << std::endl;
             std::cout << "Digite a quantidade de paises que deseja adicionar: ";
             if (std::cin >> qtd) {
                 break;
