@@ -1,75 +1,103 @@
 #include "pais.h"
 
-Pais::Pais(std::string nome) {
+//['Country, Other', 'Total Cases', 'Total Deaths', 'Total Recovered', 'Active Cases', 'Population'] cols do python
+
+Pais::Pais() : dados(5) {
+    /// @brief Construtor padrao, inicializa todos os atributos com 0
+    this->nome = "";
+    this->dados.at(0) = 0;                  // casos totais
+    this->dados.at(1) = 0;                  // obitos
+    this->dados.at(2) = 0;                  // recuperados
+    this->dados.at(3) = 0;                  // ativos
+    this->dados.at(4) = 0;                  // populacao
+}
+
+Pais::Pais(std::string nome) : dados(5) {
     /// @brief Construtor padrao, inicializa todos os atributos com 0
     /// @param nome Nome do pais
     this->nome = nome;
-    this->populacao = 0;
-    this->casos_totais = 0;
-    this->total_obitos = 0;
-    this->total_recuperados = 0;
-    this->casos_ativos = 0;
+    this->dados.at(0) = 0;                  // casos totais
+    this->dados.at(1) = 0;                  // obitos
+    this->dados.at(2) = 0;                  // recuperados
+    this->dados.at(3) = 0;                  // ativos
+    this->dados.at(4) = 0;                  // populacao
 }
 
-Pais::Pais(std::string nome, int populacao, int casos_totais, int total_obitos, int total_recuperados, int casos_ativos) {
+Pais::Pais(std::string nome, int casos_totais, int total_obitos, int total_recuperados, int casos_ativos, int populacao) : dados(5) {
     /// @brief Construtor completo, inicializa todos os atributos com os valores passados
     this->nome = nome;
-    this->populacao = populacao;
-    this->casos_totais = casos_totais;
-    this->total_obitos = total_obitos;
-    this->total_recuperados = total_recuperados;
-    this->casos_ativos = casos_ativos;
+    this->dados.at(0) = casos_totais;
+    this->dados.at(1) = total_obitos;
+    this->dados.at(2) = total_recuperados;
+    this->dados.at(3) = casos_ativos;
+    this->dados.at(4) = populacao;
+}
+
+Pais::Pais(const Pais& p) : dados(5) {
+    /// @brief Construtor de copia
+    this->nome = p.get_nome();
+    this->dados.at(0) = p.get_casos_totais();
+    this->dados.at(1) = p.get_total_obitos();
+    this->dados.at(2) = p.get_total_recuperados();
+    this->dados.at(3) = p.get_casos_ativos();
+    this->dados.at(4) = p.get_populacao();
 }
 
 Pais::~Pais() {
 }
 
+//['Country, Other', 'Total Cases', 'Total Deaths', 'Total Recovered', 'Active Cases', 'Population'] cols do python
+
 void Pais::set_nome(std::string nome) {
     this->nome = nome;
 }
 
-void Pais::set_populacao(int populacao) {
-    this->populacao = populacao;
-}
-
 void Pais::set_casos_totais(int casos_totais) {
-    this->casos_totais = casos_totais;
+    this->dados.at(0) = casos_totais;
 }
 
 void Pais::set_total_obitos(int total_obitos) {
-    this->total_obitos = total_obitos;
+    this->dados.at(1) = total_obitos;
 }
 
 void Pais::set_total_recuperados(int total_recuperados) {
-    this->total_recuperados = total_recuperados;
+    this->dados.at(2) = total_recuperados;
 }
 
 void Pais::set_casos_ativos(int casos_ativos) {
-    this->casos_ativos = casos_ativos;
+    this->dados.at(3) = casos_ativos;
 }
 
-std::string Pais::get_nome() {
+void Pais::set_populacao(int populacao) {
+    this->dados.at(4) = populacao;
+}
+
+std::string Pais::get_nome() const {
     return this->nome;
 }
 
-int Pais::get_populacao() {
-    return this->populacao;
+int Pais::get_casos_totais() const {
+    return this->dados.at(0);
 }
 
-int Pais::get_casos_totais() {
-    return this->casos_totais;
+int Pais::get_total_obitos() const {
+    return this->dados.at(1);
 }
 
-int Pais::get_total_obitos() {
-    return this->total_obitos;
+int Pais::get_total_recuperados() const {
+    return this->dados.at(2);
 }
 
-int Pais::get_total_recuperados() {
-    return this->total_recuperados;
+int Pais::get_casos_ativos() const {
+    return this->dados.at(3);
 }
 
-int Pais::get_casos_ativos() {
-    return this->casos_ativos;
+int Pais::get_populacao() const {
+    return this->dados.at(4);
+}
+
+int Pais::get_dado(int var) {
+    return this->dados.at(var);
 }
 
 bool Pais::operator<(Pais &p) {
@@ -91,4 +119,14 @@ std::ostream& operator<<(std::ostream& os, const Pais& pais) {
     /// @return 
     os << pais.nome;
     return os;
+}
+
+Pais Pais::operator=(const Pais& p){
+    this->nome = p.get_nome();
+    this->dados.at(0) = p.get_casos_totais();
+    this->dados.at(1) = p.get_total_obitos();
+    this->dados.at(2) = p.get_total_recuperados();
+    this->dados.at(3) = p.get_casos_ativos();
+    this->dados.at(4) = p.get_populacao();
+    return *this;
 }

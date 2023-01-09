@@ -3,39 +3,37 @@
 
 template <class T>
 class Arvore {
-    //friend ostream& operator<<(ostream& os, const Arvore& arvore);
+    template <class N> friend std::ostream& operator<<(std::ostream& os, Arvore<N>& arv);
     public:
         Arvore();
         Arvore(T *dado);
         ~Arvore();
         void inserir(T *dado);
-        void remover(T *dado);
         T *buscar(T *dado);
-        void imprimir();
+        T* get_valor();
+        Arvore<T>* get_esq();
+        Arvore<T>* get_dir();
     private:
-        struct No {
-            T *dado;
-            No *esq;
-            No *dir;
-        };
-        No *raiz;
-        void inserir(T *dado, No *no);
-        void remover(T *dado, No *no);
-        T *buscar(T *dado, No *no);
-        void imprimir(No *no);
+        T *valor;
+        Arvore <T> *esq;
+        Arvore <T> *dir;
+        void inserir(T *dado, Arvore<T> *arv);
+        T *buscar(T *dado, Arvore<T> *arv);
+        void imprimir(Arvore<T> *arv);
 };
 
 template <class T>
 Arvore<T>::Arvore() {
-    raiz = nullptr;
+    this->valor = nullptr;
+    this->esq = nullptr;
+    this->dir = nullptr;
 }
 
 template <class T>
-Arvore<T>::Arvore(T *dado) {
-    raiz = new No;
-    raiz->dado = dado;
-    raiz->esq = nullptr;
-    raiz->dir = nullptr;
+Arvore<T>::Arvore (T *dado) {
+    this->valor = dado;
+    this->esq = nullptr;
+    this->dir = nullptr;
 }
 
 template <class T>
@@ -43,109 +41,73 @@ Arvore<T>::~Arvore() {}
 
 template <class T>
 void Arvore<T>::inserir(T *dado) {
-    if (raiz == nullptr) {
-        raiz = new No;
-        raiz->dado = dado;
-        raiz->esq = nullptr;
-        raiz->dir = nullptr;
+    if (this->valor == nullptr) {
+        this->valor = new T(*dado);
     } else {
-        inserir(dado, raiz);
+        inserir(dado, this);
     }
 }
 
 template <class T>
-void Arvore<T>::inserir(T *dado, No *no) {
-    if (*dado < *(no->dado)) {
-        if (no->esq == nullptr) {
-            no->esq = new No;
-            no->esq->dado = dado;
-            no->esq->esq = nullptr;
-            no->esq->dir = nullptr;
+void Arvore<T>::inserir(T *dado, Arvore<T> *arv) {
+    if (*dado < *(arv->valor)) {
+        if (arv->esq == nullptr) {
+            arv->esq = new Arvore<T>(dado);
         } else {
-            inserir(dado, no->esq);
+            inserir(dado, arv->esq);
         }
-    } else if (*dado > *(no->dado)) {
-        if (no->dir == nullptr) {
-            no->dir = new No;
-            no->dir->dado = dado;
-            no->dir->esq = nullptr;
-            no->dir->dir = nullptr;
-        } else {
-            inserir(dado, no->dir);
-        }
-    }
-}
-
-template <class T>
-void Arvore<T>::remover(T *dado) {
-    if (raiz != nullptr) {
-        remover(dado, raiz);
-    }
-}
-
-template <class T>
-void Arvore<T>::remover(T *dado, No *no) {
-    if (dado < no->dado) {
-        if (no->esq != nullptr) {
-            remover(dado, no->esq);
-        }
-    } else if (dado > no->dado) {
-        if (no->dir != nullptr) {
-            remover(dado, no->dir);
-        }
-    } else if (no->esq != nullptr && no->dir != nullptr) {
-        no->dado = buscar_menor(no->dir)->dado;
-        remover(no->dado, no->dir);
     } else {
-        No *temp = no;
-        if (no->esq != nullptr) {
-            no = no->esq;
+        if (arv->dir == nullptr) {
+            arv->dir = new Arvore<T>(dado);
         } else {
-            no = no->dir;
+            inserir(dado, arv->dir);
         }
-        delete temp;
     }
 }
 
 template <class T>
 T *Arvore<T>::buscar(T *dado) {
-    if (raiz != nullptr) {
-        return buscar(dado, raiz);
-    } else {
+    return buscar(dado, this);
+}
+
+template <class T>
+T *Arvore<T>::buscar(T *dado, Arvore<T> *arv) {
+    if (arv == nullptr) {
         return nullptr;
-    }
-}
-
-template <class T>
-T *Arvore<T>::buscar(T *dado, No *no) {
-    if (*dado < *(no->dado)) {
-        if (no->esq != nullptr) {
-            return buscar(dado, no->esq);
-        }
-    } else if (*dado > *(no->dado)) {
-        if (no->dir != nullptr) {
-            return buscar(dado, no->dir);
-        }
+    } else if (*dado == *(arv->valor)) {
+        return arv->valor;
+    } else if (dado < arv->valor) {
+        return buscar(dado, arv->esq);
     } else {
-        return no->dado;
-    }
-    return nullptr;
-}
-
-template <class T>
-void Arvore<T>::imprimir() {
-    if (raiz != nullptr) {
-        imprimir(raiz);
+        return buscar(dado, arv->dir);
     }
 }
 
+template <class T> std::ostream &operator<<(std::ostream &os, Arvore<T> &arv) {
+    arv.imprimir(&arv);
+    return os;
+}
+
 template <class T>
-void Arvore<T>::imprimir(No *no) {
-    if (no->esq != nullptr) {
-        imprimir(no->esq);
+void Arvore<T>::imprimir(Arvore<T> *arv) {
+    if (arv != nullptr) {
+        imprimir(arv->esq);
+        std::cout << *(arv->valor) << std::endl;
+        imprimir(arv->dir);
     }
-    std::cout << *(no->dado) << std::endl;
-    if (no->dir != nullptr) {
-        imprimir(no->dir);
-    }
+}
+
+template <class T>
+T* Arvore<T>::get_valor() {
+    return this->valor;
+}
+
+template <class T>
+Arvore<T>* Arvore<T>::get_esq() {
+    return this->esq;
+}
+
+template <class T>
+Arvore<T>* Arvore<T>::get_dir() {
+    return this->dir;
 }
