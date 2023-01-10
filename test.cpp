@@ -57,6 +57,15 @@ int main(){
 				std::cout << "5 - Casos Ativos" << std::endl;
 				std::cout << "6 - Populacao" << std::endl;
 				break;
+			
+			case 4:
+				std::cout << "Obitos/Populacao " << estatistica.obitosEPop(pais) << std::endl;
+				std::cout << "Casos Totais/Populacao " << estatistica.casosTotaisEPop(pais) << std::endl;
+				std::cout << "Casos Ativos/Populacao " << estatistica.casosAtivosEPop(pais) << std::endl;
+				std::cout << "Recuperados/Populacao " << estatistica.recuperadosEPop(pais) << std::endl;
+				std::cout << "Obitos/Casos Totais " << estatistica.obitosECasosTotais(pais) << std::endl;
+				std::cout << "Recuperados/Casos Totais " << estatistica.recuperadosECasosTotais(pais) << std::endl;
+				break;
 
 			
 		}

@@ -1,5 +1,6 @@
 #pragma once
 #include "pais.h"
+#include <cmath>
 
 
 class Estatistica{
@@ -11,7 +12,7 @@ class Estatistica{
         double recuperadosEPop(Pais&);
         double obitosECasosTotais(Pais&);
         double recuperadosECasosTotais(Pais&);
-    
+        double round_to(double value, double precision);
     private:
         double percentual;
 };
