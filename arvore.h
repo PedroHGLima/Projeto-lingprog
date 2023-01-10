@@ -10,6 +10,7 @@ class Arvore {
         ~Arvore();
         void inserir(T *dado);
         T *buscar(T *dado);
+        void imprimir();
         T* get_valor();
         Arvore<T>* get_esq();
         Arvore<T>* get_dir();
@@ -83,9 +84,15 @@ T *Arvore<T>::buscar(T *dado, Arvore<T> *arv) {
     }
 }
 
-template <class T> std::ostream &operator<<(std::ostream &os, Arvore<T> &arv) {
+template <class T>
+std::ostream &operator<<(std::ostream &os, Arvore<T> &arv) {
     arv.imprimir(&arv);
     return os;
+}
+    
+template <class T>
+void Arvore<T>::imprimir() {
+    imprimir(this);
 }
 
 template <class T>
@@ -105,6 +112,11 @@ T* Arvore<T>::get_valor() {
 template <class T>
 Arvore<T>* Arvore<T>::get_esq() {
     return this->esq;
+}
+
+template <class T>
+Arvore<T>* Arvore<T>::get_dir() {
+    return this->dir;
 }
 
 template <class T>
