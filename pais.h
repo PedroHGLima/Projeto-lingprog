@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <exception>
 
 class Pais {
     friend std::ostream& operator<<(std::ostream& os, const Pais& pais);
@@ -34,4 +35,11 @@ class Pais {
         std::string nome;
         std::vector<int> dados; //casos_totais, total_obitos, total_recuperados, casos_ativos, populacao
         //                                0           1                 2                 3           4
+};
+
+class PonteiroNuloException : public std::exception{
+    public:
+        virtual const char* what() const throw(){
+            return "Pais nao encontrado";
+        }
 };

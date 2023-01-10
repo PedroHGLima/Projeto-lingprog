@@ -13,9 +13,8 @@ class Estatistica{
         double obitosECasosTotais(Pais&);
         double recuperadosECasosTotais(Pais&);
         double round_to(double value, double precision);
-        std::vector<Pais> mundoThreshold(Mundo&, int, int);
+        std::vector<Pais> mundoThreshold(Mundo&, double, int);
 
     private:
         double percentual;
-        std::vector<Pais> paises;
 };  

@@ -35,8 +35,9 @@ double Estatistica::round_to(double value, double precision = 1.0)
     return std::round(value / precision) * precision;
 }
 
-std::vector<Pais> Estatistica::mundoThreshold(Mundo &mundo, int threshold, int opcao){
+std::vector<Pais> Estatistica::mundoThreshold(Mundo &mundo, double threshold, int opcao){
     std::vector<Pais> todosPaises = mundo.get_paises().arvoreToVector();
+    std::vector<Pais> thresholdPaises;
 
     for (unsigned int i = 0; i < todosPaises.size(); i++){
         switch (opcao){
@@ -58,10 +59,13 @@ std::vector<Pais> Estatistica::mundoThreshold(Mundo &mundo, int threshold, int o
             case 6:
                 percentual = recuperadosECasosTotais(todosPaises[i]);
                 break;
+            default:
+                std::cout << "Opcao invalida" << std::endl;
+                break;
         }
         if (percentual >= threshold){
-            paises.push_back(todosPaises[i]);
+            thresholdPaises.push_back(todosPaises[i]);
         }
     }
-    return paises;
+    return thresholdPaises;
 }
