@@ -10,8 +10,34 @@
 
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 #include "mundo.h"
+
+std::vector<Pais> get_top(Arvore<Pais> *arv, std::vector<Pais> *v, int var) {
+	if (arv != nullptr) {
+		get_top(arv->get_esq(), v, var);
+		if (arv->get_valor()->get_dado(var) > (*v).back().get_dado(var)) {
+			(*v).back() = *(arv->get_valor());
+			std::sort((*v).begin(), (*v).end(), [var](Pais a, Pais b) {
+				return a.get_dado(var) > b.get_dado(var);
+			});
+		}
+		get_top(arv->get_dir(), v, var);
+	}
+	return (*v);
+}
+
+std::vector<Pais> get_top(Mundo& m, int var, int qtd=10) {
+	if (qtd > m.get_n_paises()) {
+        qtd = m.get_n_paises();
+        std::cout << "Quantidade maior do que o numero de paises, reduzindo para " << qtd << std::endl;
+    }
+    
+    std::vector<Pais> v(qtd);
+    Arvore<Pais> paises = m.get_paises();
+	return get_top(&paises, &v, var);
+}
 
 void rank_list(Mundo &mundo, int num){
     // TODO: ainda ta tudo errado aqui
@@ -47,6 +73,11 @@ void rank_list(Mundo &mundo, int num){
                 std::cout << "3 - Total de recuperados" << std::endl;
                 std::cout << "4 - Total de casos ativos" << std::endl;
                 std::cout << "5 - Populacao" << std::endl;
+                std::cout << "9 - Mostrar opcoes" << std::endl;
+                std::cout << "0 - Sair" << std::endl;
+                break;
+            case 0:
+                continuar = false;
                 break;
             default:
                 std::cout << "Opcao invalida" << std::endl;
@@ -56,8 +87,15 @@ void rank_list(Mundo &mundo, int num){
             std::cout << "Digite a variavel a ser mostrada: "; std::cin >> variavel;
         }
     }
-
-    //for (int i = 0; i < m.get_n_paises; i++){}
+    if (variavel == 0) {
+        return;
+    } else {
+        std::vector<Pais> top = get_top(mundo, --variavel, num);
+        for (size_t i=0; i<top.size(); i++) {
+            std::cout << top[i].get_nome() << std::endl;
+        }
+    }
+    return;
 }
 
 void menu(Mundo& mundo, int comando=9) {
@@ -93,6 +131,7 @@ void menu(Mundo& mundo, int comando=9) {
                 break;
             case 0:
                 std::cout << "Encerrando o programa..." << std::endl;
+                return;
                 break;
             default:
                 std::cout << "Comando desconhecido" << std::endl;
@@ -104,10 +143,9 @@ void menu(Mundo& mundo, int comando=9) {
 }
 
 int main() {
-    int comando = 9;
     Mundo mundo;
 
-    menu(mundo, comando);
+    menu(mundo);
 
     return 0;
 }
