@@ -1,42 +1,141 @@
-#include <iostream>
-#include <fstream>
-#include <stdlib.h>
-
+#define PY_SSIZE_T_CLEAN
+#include <python3.10/Python.h>
 #include "mundo.h"
+#include "estatistica.h"
+#include <limits>
 
-void gerar_relatorio(Pais *p) {
-	if (p == nullptr) {
-		return;
-	} else {
-		std::string texto;
-		std::string nome, casos_totais, obitos, recuperados, ativos, populacao;
-		nome 			= p->get_nome();
-		casos_totais 	= std::to_string(p->get_casos_totais());
-		obitos 			= std::to_string(p->get_total_obitos());
-		recuperados 	= std::to_string(p->get_total_recuperados());
-		ativos 			= std::to_string(p->get_casos_ativos());
-		populacao 		= std::to_string(p->get_populacao());
-		texto = "\\documentclass[11pt]{beamer}\n\\usetheme{Madrid}\n\\usepackage[utf8]{inputenc}\n\n\\usepackage{wrapfig}\n\\DeclareMathOperator {\\argmin}{argmin}\n\n\\begin{document}\n\n\\begin{frame}{Relatório Nacional}\n\\begin{center}\n\\begin{itemize}\n\\item País: "+nome+" \\newline\n\\end{itemize}\n\\begin{tabular}{c|c|c|c|c}\nTotal & Obitos & Recuperados & Ativos & Populacao \\\\\n\\hline\n"+casos_totais+" & "+obitos+" & "+recuperados+" & "+ativos+" & "+populacao+"\n\\end{tabular}\n\\end{center}\n\\begin{figure}\n\\centering\n\\includegraphics[width=5cm]{data/bandeiras/"+nome+".pdf}\n\\end{figure}\n\\end{frame}\n\n\\end{document}\n";
-		std::ofstream arquivo;
-		arquivo.open("relatorio.tex");
-		arquivo << texto;
-		arquivo.close();
-		system("pdflatex relatorio.tex >/dev/null");
-		system("rm relatorio.aux relatorio.log relatorio.nav relatorio.out relatorio.snm relatorio.toc relatorio.tex");
-		std::string cmd = "mv relatorio.pdf docs/relatorios/relatorio_"+nome+".pdf";
-		system(cmd.c_str());
-	}
+int main(){
+	int opcao;
+	double threshold;
+	std::string nome;
+	Pais pais;
+	Estatistica estatistica;
+	std::cout << "===== Bem vindo ao Relatorio Internacional da Pandemia de Covid-19 =====" << std::endl;
+	
+	Mundo m;
+
+
+	for(;;){
+		std::cout << std::endl;
+		std::cout << "Escolha uma das opcoes: " << std::endl;
+		std::cout << "1 - Mostrar Lista de paises carregados" << std::endl; // <- Funcao nao prevista no relatorio
+		std::cout << "2 - Mostrar dados de um pais" << std::endl;		   // <- Funcao nao prevista no relatorio
+		std::cout << "3 - Mostrar variaveis envolvidas" << std::endl;
+		std::cout << "4 - Apresentar estatisticas relacionadas a um pais" << std::endl;	
+		std::cout << "5 - Filtrar Paises por um valor de referencia" << std::endl;
+		std::cout << std::endl;
+
+	
+		while(true){
+			if (std::cin >> opcao) {
+					std::cout << std::endl;
+                	break;
+            	} 
+				else {
+                	std::cout << "Erro, insira um inteiro" << std::endl;
+			    	std::cin.clear(); std::cin.ignore();
+				}
+		}
+        
+		switch(opcao){
+			case 1:
+				std::cout << m << std::endl;
+				break;
+
+			case 2:
+				std::cout << "Digite o nome do pais: " << std::endl;
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				getline(std::cin, nome);
+				std::cout << std::endl;
+				try{
+					if(m.get_paises().buscar(new Pais(nome))==nullptr){
+						throw PonteiroNuloException();
+					}
+				}
+				catch(PonteiroNuloException &e){
+					std::cout << e.what() << std::endl;
+					break;
+				}
+				pais = *(m.get_paises().buscar(new Pais(nome)));
+				std::cout << std::endl;
+				std::cout << "Nome: " << pais << std::endl;
+				std::cout << "Total de Casos: " << pais.get_casos_totais() << std::endl;
+				std::cout << "Total de Obitos: " << pais.get_total_obitos() << std::endl;
+				std::cout << "Total de Recuperados: " << pais.get_total_recuperados() << std::endl;
+				std::cout << "Casos Ativos: " << pais.get_casos_ativos() << std::endl;
+				std::cout << "Populacao: " << pais.get_populacao() << std::endl;
+				break;
+
+			case 3:
+				std::cout << "As Variaveis envolvidas sao: " << std::endl;
+				std::cout << "1 - Paises " << std::endl;
+				std::cout << "2 - Total de Casos" << std::endl;
+				std::cout << "3 - Total de Obitos" << std::endl;
+				std::cout << "4 - Total de Recuperados" << std::endl;
+				std::cout << "5 - Casos Ativos" << std::endl;
+				std::cout << "6 - Populacao" << std::endl;
+				break;
+			
+			case 4:
+				std::cout << "Digite o nome do pais: " << std::endl;
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				getline(std::cin, nome);
+				std::cout << std::endl;
+				try{
+					if(m.get_paises().buscar(new Pais(nome))==nullptr){
+						throw PonteiroNuloException();
+					}
+				}
+				catch(PonteiroNuloException &e){
+					std::cout << e.what() << std::endl;
+					break;
+				}
+				pais = *(m.get_paises().buscar(new Pais(nome)));
+				std::cout << std::endl;
+				std::cout << "Para o pais " << pais << " as estatisticas sao: " << std::endl;
+				std::cout << "O percentual de obitos em toda a populacao e: " << estatistica.obitosEPop(pais) << "%" << std::endl;
+				std::cout << "O percentual de casos totais em toda a populacao e: " << estatistica.casosTotaisEPop(pais) << "%" << std::endl;
+				std::cout << "O percentual de recuperados em toda a populacao e: " << estatistica.recuperadosEPop(pais) << "%" << std::endl;
+				std::cout << "O percentual de casos ativos em toda a populacao e: " << estatistica.casosAtivosEPop(pais) << "%" << std::endl;
+				std::cout << "O percentual de obitos em relacao aos casos totais e: " << estatistica.obitosECasosTotais(pais) << "%" << std::endl;
+				std::cout << "O percentual de recuperados em relacao aos casos totais e: " << estatistica.recuperadosECasosTotais(pais)<< "%" << std::endl;
+				break;
+			case 5:
+				std::cout << "Insira o valor de referencia, em termos percentuais: " << std::endl;
+				while(true){
+					if (std::cin >> threshold) {
+						break;
+					} 
+					else {
+						std::cout << "Erro, insira um numero" << std::endl;
+			    		std::cin.clear(); std::cin.ignore();
+					}
+				}
+				std::cout << "Escolha um dentre os criterios abaixo:" << std::endl;
+				std::cout << "1 - Percentual de obitos em toda a populacao" << std::endl;
+				std::cout << "2 - Percentual de casos totais em toda a populacao" << std::endl;
+				std::cout << "3 - Percentual de casos ativos em toda a populacao" << std::endl;
+				std::cout << "4 - Percentual de recuperados em toda a populacao" << std::endl;
+				std::cout << "5 - Percentual de obitos em relacao aos casos totais" << std::endl;
+				std::cout << "6 - Percentual de recuperados em relacao aos casos totais" << std::endl;
+				while(true){
+					if (std::cin >> opcao) {
+						break;
+					} 
+					else {
+						std::cout << "Erro, insira um inteiro" << std::endl;
+			    		std::cin.clear(); std::cin.ignore();
+					}
+				}
+				std::cout << "Os paises com o percentual da opcao " << opcao << " acima de " << threshold << " % sao:" << std::endl;
+				for(unsigned int i = 0; i < estatistica.mundoThreshold(m,threshold,opcao).size(); i++){
+					std::cout << estatistica.mundoThreshold(m,threshold,opcao)[i] << std::endl;
+				}
+				break;
+
+
+				
+			
+		}
+	}		
 }
-
-int main() {
-    Mundo m;
-    Arvore<Pais> paises = m.get_paises();
-
-	std::cout << paises.buscar(new Pais("China")) << std::endl;
-	gerar_relatorio(paises.buscar(new Pais ("China")));
-
-    return 0;
-}
-
-//g++ $(python3-config --cflags) test.cpp -o tst $(python3-config --ldflags --embed)
-// Comando para compilar, lembre-se de adicionar os cpp adicionais, caso necessario

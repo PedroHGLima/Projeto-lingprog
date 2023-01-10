@@ -92,7 +92,3 @@ std::ostream &operator<<(std::ostream &out, Mundo&m){
     out << m.paises << std::endl;
     return out;
 }
-
-std::vector<std::string> Mundo::getNomesPaises(){
-    return nomes_paises;
-}
