@@ -38,12 +38,12 @@ void Mundo::set_paises() {
         pName = PyUnicode_FromString((char*)"read_data");           // Nome do arquivo python
         pModule = PyImport_Import(pName);                           // Importa o arquivo
         pDict = PyModule_GetDict(pModule);                          // Dicionario do arquivo
-        pFunc = PyDict_GetItemString(pDict, (char*)"ler_paises");   // Funcao a ser chamada
-
+        pFunc = PyDict_GetItemString(pDict, (char*)"ler_paises"); 
+        
         if (PyCallable_Check(pFunc)){
             pValue=Py_BuildValue("(i)", (int)qtd);                  // Argumento da funcao
             PyErr_Print();
-            presult=PyObject_CallObject(pFunc,pValue);              // Chama a funcao
+            presult = PyObject_CallObject(pFunc,pValue);              // Chama a funcao
             PyErr_Print();
             qtd = (int) PyList_Size(presult);            // Quantidade de paises a serem lidos, rededifinida para evitar erros
             /* Dentro da funcao, podemos passar arquivos >=0 para definir quantos paises serao lidos.
@@ -69,6 +69,7 @@ void Mundo::set_paises() {
             PyErr_Print();
         }
 
+
         Py_DECREF(pValue);
         Py_DECREF(pModule);
         Py_DECREF(pName);
@@ -85,4 +86,13 @@ void Mundo::set_paises() {
 
 int Mundo::get_n_paises () {
     return this->n_paises;
+}
+
+std::ostream &operator<<(std::ostream &out, Mundo&m){
+    out << m.paises << std::endl;
+    return out;
+}
+
+std::vector<std::string> Mundo::getNomesPaises(){
+    return nomes_paises;
 }

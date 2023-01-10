@@ -3,7 +3,7 @@
 
 template <class T>
 class Arvore {
-    //friend ostream& operator<<(ostream& os, const Arvore& arvore);
+    template <class N> friend std::ostream& operator<<(std::ostream& os, Arvore<N>& arv);
     public:
         Arvore();
         Arvore(T *dado);
@@ -77,13 +77,19 @@ T *Arvore<T>::buscar(T *dado, Arvore<T> *arv) {
         return nullptr;
     } else if (*dado == *(arv->valor)) {
         return arv->valor;
-    } else if (dado < arv->valor) {
+    } else if (*dado < *(arv->valor)) {
         return buscar(dado, arv->esq);
     } else {
         return buscar(dado, arv->dir);
     }
 }
 
+template <class T>
+std::ostream &operator<<(std::ostream &os, Arvore<T> &arv) {
+    arv.imprimir(&arv);
+    return os;
+}
+    
 template <class T>
 void Arvore<T>::imprimir() {
     imprimir(this);
@@ -106,6 +112,11 @@ T* Arvore<T>::get_valor() {
 template <class T>
 Arvore<T>* Arvore<T>::get_esq() {
     return this->esq;
+}
+
+template <class T>
+Arvore<T>* Arvore<T>::get_dir() {
+    return this->dir;
 }
 
 template <class T>
