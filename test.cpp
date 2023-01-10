@@ -139,8 +139,3 @@ int main(){
 		}
 	}		
 }
-
-
-
-//g++ $(python3-config --cflags) test.cpp -o tst $(python3-config --ldflags --embed)
-// Comando para compilar, lembre-se de adicionar os cpp adicionais, caso necessario

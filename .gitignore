@@ -11,3 +11,4 @@
 !makefile
 .vscode
 __pycache__
+docs/relatorios/*
