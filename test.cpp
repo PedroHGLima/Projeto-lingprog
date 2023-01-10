@@ -1,61 +1,41 @@
+#include <iostream>
+#include <fstream>
+#include <stdlib.h>
+
 #include "mundo.h"
-#include <vector>
-#include <algorithm>
 
-Pais get_maior(Arvore<Pais> *arv) {
-	Pais r = *(arv->get_valor());
-	int maior = arv->get_valor()->get_populacao();
-	if (arv->get_esq() != nullptr) {
-		Pais p = get_maior(arv->get_esq());
-		if (p.get_populacao() > maior) {
-			maior = p.get_populacao();
-			r = p;
-		}
+void gerar_relatorio(Pais *p) {
+	if (p == nullptr) {
+		return;
+	} else {
+		std::string texto;
+		std::string nome, casos_totais, obitos, recuperados, ativos, populacao;
+		nome 			= p->get_nome();
+		casos_totais 	= std::to_string(p->get_casos_totais());
+		obitos 			= std::to_string(p->get_total_obitos());
+		recuperados 	= std::to_string(p->get_total_recuperados());
+		ativos 			= std::to_string(p->get_casos_ativos());
+		populacao 		= std::to_string(p->get_populacao());
+		texto = "\\documentclass[11pt]{beamer}\n\\usetheme{Madrid}\n\\usepackage[utf8]{inputenc}\n\n\\usepackage{wrapfig}\n\\DeclareMathOperator {\\argmin}{argmin}\n\n\\begin{document}\n\n\\begin{frame}{Relatório Nacional}\n\\begin{center}\n\\begin{itemize}\n\\item País: "+nome+" \\newline\n\\end{itemize}\n\\begin{tabular}{c|c|c|c|c}\nTotal & Obitos & Recuperados & Ativos & Populacao \\\\\n\\hline\n"+casos_totais+" & "+obitos+" & "+recuperados+" & "+ativos+" & "+populacao+"\n\\end{tabular}\n\\end{center}\n\\begin{figure}\n\\centering\n\\includegraphics[width=5cm]{data/bandeiras/"+nome+".pdf}\n\\end{figure}\n\\end{frame}\n\n\\end{document}\n";
+		std::ofstream arquivo;
+		arquivo.open("relatorio.tex");
+		arquivo << texto;
+		arquivo.close();
+		system("pdflatex relatorio.tex >/dev/null");
+		system("rm relatorio.aux relatorio.log relatorio.nav relatorio.out relatorio.snm relatorio.toc relatorio.tex");
+		std::string cmd = "mv relatorio.pdf docs/relatorios/relatorio_"+nome+".pdf";
+		system(cmd.c_str());
 	}
-	if (arv->get_dir() != nullptr) {
-		Pais p = get_maior(arv->get_dir());
-		if (p.get_populacao() > maior) {
-			maior = p.get_populacao();
-			r = p;
-		}
-	}
-	return r;
 }
 
-std::vector<Pais> get_top(Arvore<Pais> *arv, std::vector<Pais> *v, int var) {
-	if (arv != nullptr) {
-		get_top(arv->get_esq(), v, var);
-		if (arv->get_valor()->get_dado(var) > (*v).back().get_dado(var)) {
-			(*v).back() = *(arv->get_valor());
-			std::sort((*v).begin(), (*v).end(), [var](Pais a, Pais b) {
-				return a.get_dado(var) > b.get_dado(var);
-			});
-		}
-		get_top(arv->get_dir(), v, var);
-	}
-	return (*v);
-}
+int main() {
+    Mundo m;
+    Arvore<Pais> paises = m.get_paises();
 
-std::vector<Pais> get_top(Arvore<Pais> *arv, int var) {
-	std::vector<Pais> v(10);
-	return get_top(arv, &v, var);
-}
+	std::cout << paises.buscar(new Pais("China")) << std::endl;
+	gerar_relatorio(paises.buscar(new Pais ("China")));
 
-
-int main () {
-	Mundo m;
-	Arvore<Pais> paises = m.get_paises();
-
-	//paises.imprimir();
-	//std::cout << *(paises.get_valor()) << std::endl;
-	//std::cout << get_maior(&paises) << std::endl;
-	int var = 0;
-	std::vector<Pais> top = get_top(&paises, var);
-	for (size_t i=0; i<top.size(); i++) {
-		std::cout << top[i] << std::endl;
-	}
-
-	return 0;
+    return 0;
 }
 
 //g++ $(python3-config --cflags) test.cpp -o tst $(python3-config --ldflags --embed)

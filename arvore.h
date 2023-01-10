@@ -77,7 +77,7 @@ T *Arvore<T>::buscar(T *dado, Arvore<T> *arv) {
         return nullptr;
     } else if (*dado == *(arv->valor)) {
         return arv->valor;
-    } else if (dado < arv->valor) {
+    } else if (*dado < *(arv->valor)) {
         return buscar(dado, arv->esq);
     } else {
         return buscar(dado, arv->dir);
