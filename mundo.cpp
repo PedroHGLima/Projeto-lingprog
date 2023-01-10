@@ -19,7 +19,7 @@ void Mundo::set_paises() {
     // Se sim, eh a primeira execucao
         setenv("PYTHONPATH",".",1);
         Py_Initialize();
-        PyObject *pName, *pModule, *pDict, *pFunc, *pValue, *presult, *presult2;   // Ponteiros para objetos do python
+        PyObject *pName, *pModule, *pDict, *pFunc, *pValue, *presult;   // Ponteiros para objetos do python
         std::string nome;                                               // Nome do pais 
         int total, obitos, recuperados, ativos, populacao;              // Dados do pais
         int qtd;                                                        // Quantidade de paises a serem lidos
@@ -42,7 +42,7 @@ void Mundo::set_paises() {
         if (PyCallable_Check(pFunc)){
             pValue=Py_BuildValue("(i)", (int)qtd);                  // Argumento da funcao
             PyErr_Print();
-            presult, presult2=PyObject_CallObject(pFunc,pValue);              // Chama a funcao
+            presult = PyObject_CallObject(pFunc,pValue);              // Chama a funcao
             PyErr_Print();
             qtd = (int) PyList_Size(presult);            // Quantidade de paises a serem lidos, rededifinida para evitar erros
             /* Dentro da funcao, podemos passar arquivos >=0 para definir quantos paises serao lidos.
@@ -66,11 +66,6 @@ void Mundo::set_paises() {
             this->n_paises = qtd;       // Atualiza a quantidade total de paises
         } else {
             PyErr_Print();
-        }
-
-        qtd = (int) PyList_Size(presult2);            // Quantidade de paises a serem lidos, rededifinida para evitar erros
-        for (unsigned int i=0; i++){
-            nomes_paises[i] = _PyUnicode_AsString(PyList_GetItem(presult2, i));
         }
 
 
