@@ -34,3 +34,34 @@ double Estatistica::round_to(double value, double precision = 1.0)
 {
     return std::round(value / precision) * precision;
 }
+
+std::vector<Pais> Estatistica::mundoThreshold(Mundo &mundo, int threshold, int opcao){
+    std::vector<Pais> todosPaises = mundo.get_paises().arvoreToVector();
+
+    for (unsigned int i = 0; i < todosPaises.size(); i++){
+        switch (opcao){
+            case 1:
+                percentual = obitosEPop(todosPaises[i]);
+                break;
+            case 2:
+                percentual = casosTotaisEPop(todosPaises[i]);
+                break;
+            case 3:
+                percentual = casosAtivosEPop(todosPaises[i]);
+                break;
+            case 4:
+                percentual = recuperadosEPop(todosPaises[i]);
+                break;
+            case 5:
+                percentual = obitosECasosTotais(todosPaises[i]);
+                break;
+            case 6:
+                percentual = recuperadosECasosTotais(todosPaises[i]);
+                break;
+        }
+        if (percentual >= threshold){
+            paises.push_back(todosPaises[i]);
+        }
+    }
+    return paises;
+}
