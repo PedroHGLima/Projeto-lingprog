@@ -121,7 +121,7 @@ void rank_list(Mundo &mundo, int num){
 
 
 int main(){
-	int opcao=9;
+	int opcao=9, var;
 	double threshold;
 	std::string nome;
 	Pais pais;
@@ -133,9 +133,9 @@ int main(){
 	for(;;){
 		switch(opcao){
 			case 1:
-				std::cout << "As Variaveis envolvidas sao: " << std::endl;
-				std::cout << "1 - Paises " << std::endl;
-				std::cout << "2 - Total de Casos" << std::endl;
+				std::cout << "As Variaveis envolvidas sao: " << std::endl; 
+				std::cout << "1 - Paises " << std::endl;   
+				std::cout << "2 - Total de Casos" << std::endl;   
 				std::cout << "3 - Total de Obitos" << std::endl;
 				std::cout << "4 - Total de Recuperados" << std::endl;
 				std::cout << "5 - Casos Ativos" << std::endl;
@@ -200,7 +200,7 @@ int main(){
 				std::cout << "5 - Percentual de obitos em relacao aos casos totais" << std::endl;
 				std::cout << "6 - Percentual de recuperados em relacao aos casos totais" << std::endl;
 				while(true){
-					if (std::cin >> opcao) {
+					if (std::cin >> var) {
 						break;
 					} 
 					else {
@@ -208,9 +208,9 @@ int main(){
 			    		std::cin.clear(); std::cin.ignore();
 					}
 				}
-				std::cout << "Os paises com o percentual da opcao " << opcao << " acima de " << threshold << " % sao:" << std::endl;
-				for(unsigned int i = 0; i < estatistica.mundoThreshold(m,threshold,opcao).size(); i++){
-					std::cout << estatistica.mundoThreshold(m,threshold,opcao)[i] << std::endl;
+				std::cout << "Os paises com o percentual da opcao " << var << " acima de " << threshold << " % sao:" << std::endl;
+				for(unsigned int i = 0; i < estatistica.mundoThreshold(m,threshold,var).size(); i++){
+					std::cout << estatistica.mundoThreshold(m,threshold,var)[i] << std::endl;
 				}
 				break;
             case 5:{
@@ -262,14 +262,14 @@ int main(){
 				break;
 			case 9:
 				std::cout << "Escolha uma das opcoes: " 							<< std::endl;
-				std::cout << "1 - Mostrar variaveis envolvidas" 					<< std::endl;
-				std::cout << "2 - Ranquear paises com base em uma variavel" 		<< std::endl;
-				std::cout << "3 - Apresentar estatisticas relacionadas a um pais" 	<< std::endl;
-				std::cout << "4 - Filtrar Paises por um valor de referencia" 		<< std::endl;
-				std::cout << "5 - Gerar um boletim em PDF sobre um pais" 			<< std::endl;
-				std::cout << "6 - Mostrar Lista de paises carregados"				<< std::endl;
-				std::cout << "7 - Mostrar dados de um pais"							<< std::endl;
-				std::cout << "9 - Impressao da ajuda"								<< std::endl;
+				std::cout << "1 - Mostrar variaveis envolvidas" 					<< std::endl;   //ok
+				std::cout << "2 - Ranquear paises com base em uma variavel" 		<< std::endl;   //ok
+				std::cout << "3 - Apresentar estatisticas relacionadas a um pais" 	<< std::endl;   
+				std::cout << "4 - Filtrar Paises por um valor de referencia" 		<< std::endl; 
+				std::cout << "5 - Gerar um boletim em PDF sobre um pais" 			<< std::endl;   //ok
+				std::cout << "6 - Mostrar Lista de paises carregados"				<< std::endl;   //ok
+				std::cout << "7 - Mostrar dados de um pais"							<< std::endl;   
+				std::cout << "9 - Impressao da ajuda"								<< std::endl;  //ok
 				std::cout << "0 - Sair" 											<< std::endl;
 				break;
 			case 0:
