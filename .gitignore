@@ -8,6 +8,8 @@
 *.out
 *.xlsx
 *.pptx
+*.docx
+*.mp4
 !makefile
 .vscode
 __pycache__
