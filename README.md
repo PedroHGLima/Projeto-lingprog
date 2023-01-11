@@ -5,3 +5,7 @@ Repositório dedicado ao desenvolvimento do projeto da disciplina de Linguagens 
 Autores:
 - [Pedro Lima](https://github.com/PedroHGLima)
 - [Bernardo Faria](https://github.com/Bernardo-LSF)
+
+
+Para compilação e execução, utilize o comando <br>
+`make exec`
