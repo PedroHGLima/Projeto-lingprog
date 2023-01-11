@@ -25,8 +25,8 @@ void Mundo::set_paises() {
         int qtd;                                                        // Quantidade de paises a serem lidos
         while (true) {
         // Laco para prevenir erros de leitura
-            std::cout << "<0: Nenhum | 0: Todos | >0: Quantidade>" << std::endl;
-            std::cout << "Digite a quantidade de paises que deseja adicionar: ";
+            std::cout << "(<0): Nenhum | 0: Todos | (>0): Quantidade" << std::endl;
+            std::cout << "Digite a quantidade de paises que deseja carregar: ";
             if (std::cin >> qtd) {
                 break;
             } else {
@@ -89,6 +89,6 @@ int Mundo::get_n_paises () {
 }
 
 std::ostream &operator<<(std::ostream &out, Mundo&m){
-    out << m.paises << std::endl;
+    out << m.paises;
     return out;
 }
