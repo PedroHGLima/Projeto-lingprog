@@ -8,7 +8,10 @@ Autores:
 
 
 Para compilação e execução, utilize o comando <br>
-`make exec`
+`make exec` <br>
+
+Para remoção dos arquivos, utilize o comando <br>
+`make clean` <br>
 
 
 Para a função de geração do Relatório em PDF, é necessário um programa para conversão de .tex para .pdf.
